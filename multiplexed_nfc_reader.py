@@ -49,11 +49,10 @@ class MultiplexedNFCReader:
 
 multiplexedNFCReader = MultiplexedNFCReader()
 
-DEVICES = [0, 1]
-
-for device in DEVICES:
-    print "Selecting device: "+ str(device)
-    multiplexedNFCReader.selectDevice(device)
-    multiplexedNFCReader.readNFC()
+while 1:
+    for device in range(0, 8):
+        print "Selecting device: "+ str(device)
+        multiplexedNFCReader.selectDevice(device)
+        multiplexedNFCReader.readNFC()
 
 multiplexedNFCReader.cleanup()
