@@ -19,30 +19,16 @@ class MultiplexedNFCReader:
         self.mfrfcReader = MFRC522.MFRC522()
 
     def selectDevice(self, deviceNumber):
+        self.deviceNumber = deviceNumber
         GPIO.output(MultiplexedNFCReader.A2, (deviceNumber >> 2) & 1)
         GPIO.output(MultiplexedNFCReader.A1, (deviceNumber >> 1) & 1)
         GPIO.output(MultiplexedNFCReader.A0, deviceNumber & 1)
 
     def readNFC(self):
-        (status, TagType) = self.mfrfcReader.MFRC522_Request(self.mfrfcReader.PICC_REQIDL)
-
-        print "**********"
-        print status
-        print TagType
-
-        if status == self.mfrfcReader.MI_OK:
-          print "Card detected"
-
         (status, uid) = self.mfrfcReader.MFRC522_Anticoll()
 
-        print "----------"
-        print status
-        print uid
-
         if status == self.mfrfcReader.MI_OK:
-          print "Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
-
-        print "Finished Reading"
+          print "Card read " + str(self.deviceNumber) + "UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
 
     def cleanup(self):
         GPIO.cleanup()
@@ -52,7 +38,6 @@ multiplexedNFCReader = MultiplexedNFCReader()
 
 while 1:
     for device in range(0, 8):
-        print "Selecting device: "+ str(device)
         multiplexedNFCReader.selectDevice(device)
         multiplexedNFCReader.readNFC()
 
