@@ -10,7 +10,7 @@ class MultiplexedNFCReader:
     A1 = 23
     A0 = 18
 
-    def __init__():
+    def __init__(self):
         GPIO.cleanup()
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(MultiplexedNFCReader.A2, GPIO.OUT)
