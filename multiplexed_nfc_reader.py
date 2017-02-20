@@ -23,7 +23,7 @@ class MultiplexedNFCReader:
         GPIO.output(MultiplexedNFCReader.A0, deviceNumber & 1)
 
     def readNFC(self):
-        (status, TagType) = self.mfrfcReader(self.mfrfcReader.PICC_REQIDL)
+        (status, TagType) = self.mfrfcReader.MFRC522_Request(self.mfrfcReader.PICC_REQIDL)
 
         print "**********"
         print status
