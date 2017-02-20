@@ -6,13 +6,13 @@ import spidev
 import time
 
 class MultiplexedNFCReader:
-    A2 = 24
-    A1 = 23
-    A0 = 18
+    A2 = 18 # GPIO 24
+    A1 = 16 # GPIO 23
+    A0 = 12 # GPIO 18
 
     def __init__(self):
         GPIO.cleanup()
-        GPIO.setmode(GPIO.BCM)
+        GPIO.setmode(GPIO.BOARD)
         GPIO.setup(MultiplexedNFCReader.A2, GPIO.OUT)
         GPIO.setup(MultiplexedNFCReader.A1, GPIO.OUT)
         GPIO.setup(MultiplexedNFCReader.A0, GPIO.OUT)
