@@ -28,7 +28,7 @@ class MultiplexedNFCReader:
         (status, uid) = self.mfrfcReader.MFRC522_Anticoll()
 
         if status == self.mfrfcReader.MI_OK:
-          print "Card read " + str(self.deviceNumber) + "UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
+          print "Card read " + str(self.deviceNumber) + "! UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
 
     def cleanup(self):
         GPIO.cleanup()
