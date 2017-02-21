@@ -58,6 +58,7 @@ signal.signal(signal.SIGINT, end_read)
 while continue_reading:
     for device in range(0, 8):
         multiplexed_nfc_reader = MultiplexedNFCReader(device)
+        print "Reading device: " + str(device)
         for _ in range(10):
             if multiplexed_nfc_reader.has_tag():
                 tag_uid = multiplexed_nfc_reader.read_NFC()
