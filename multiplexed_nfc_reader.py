@@ -7,24 +7,24 @@ import signal
 import spidev
 import time
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BOARD)
-
 class MultiplexedNFCReader:
     A0 = 18 # GPIO 24
     A1 = 16 # GPIO 23
     A2 = 12 # GPIO 18
 
-    def __init__(self):
+    def __init__(self, device_number):
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BOARD)
         GPIO.setup(MultiplexedNFCReader.A2, GPIO.OUT)
         GPIO.setup(MultiplexedNFCReader.A1, GPIO.OUT)
         GPIO.setup(MultiplexedNFCReader.A0, GPIO.OUT)
+        self.select_device(device_number)
         self.mfrfc_reader = MFRC522.MFRC522()
 
-    def select_device(self, deviceNumber):
-        a2_value = (deviceNumber >> 2) & 1
-        a1_value = (deviceNumber >> 1) & 1
-        a0_value = deviceNumber & 1
+    def select_device(self, device_number):
+        a2_value = (device_number >> 2) & 1
+        a1_value = (device_number >> 1) & 1
+        a0_value = device_number & 1
 
         print "Setting value: " + str(a2_value) + " " + str(a1_value) + " " + str(a0_value)
 
@@ -46,24 +46,21 @@ class MultiplexedNFCReader:
     def cleanup(self):
         GPIO.cleanup()
 
+
 continue_reading = True
-
-multiplexed_nfc_reader = MultiplexedNFCReader()
-
 def end_read(signal,frame):
     global continue_reading
     print "Ctrl+C captured, ending read."
     continue_reading = False
-    multiplexed_nfc_reader.cleanup()
-
-# Hook the SIGINT
+    GPIO.cleanup()
 signal.signal(signal.SIGINT, end_read)
 
 while continue_reading:
     for device in range(0, 8):
-        multiplexed_nfc_reader.select_device(device)
-        if multiplexed_nfc_reader.has_tag():
-            tag_uid = multiplexed_nfc_reader.read_NFC()
-            print "Card read " + str(device) + "! UID: "+ tag_uid
-
+        multiplexed_nfc_reader = MultiplexedNFCReader(device)
+        for _ in range(10):
+            if multiplexed_nfc_reader.has_tag():
+                tag_uid = multiplexed_nfc_reader.read_NFC()
+                print "Card read " + str(device) + "! UID: "+ tag_uid
+            multiplexed_nfc_reader.cleanup()
         time.sleep(1)
