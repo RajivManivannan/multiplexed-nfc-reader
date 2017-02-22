@@ -8,14 +8,15 @@ import spidev
 import time
 
 class MultiplexedNFCReader:
-    A0 = 40 # GPIO 21
-    A1 = 37 # GPIO 20
-    A2 = 36 # GPIO 16
-    A3 = 32 # GPIO 12
+    A3 = 40 # GPIO 21
+    A2 = 37 # GPIO 20
+    A1 = 36 # GPIO 16
+    A0 = 32 # GPIO 12
 
     def __init__(self, device_number):
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(MultiplexedNFCReader.A3, GPIO.OUT)
         GPIO.setup(MultiplexedNFCReader.A2, GPIO.OUT)
         GPIO.setup(MultiplexedNFCReader.A1, GPIO.OUT)
         GPIO.setup(MultiplexedNFCReader.A0, GPIO.OUT)
@@ -28,7 +29,7 @@ class MultiplexedNFCReader:
         a1_value = (device_number >> 1) & 1
         a0_value = device_number & 1
 
-        print "Setting value: " + str(a3_value) + str(a2_value) + " " + str(a1_value) + " " + str(a0_value)
+        print "Setting value: " + str(a3_value) + " " + str(a2_value) + " " + str(a1_value) + " " + str(a0_value)
 
         GPIO.output(MultiplexedNFCReader.A3, a3_value)
         GPIO.output(MultiplexedNFCReader.A2, a2_value)
