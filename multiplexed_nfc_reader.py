@@ -26,8 +26,6 @@ class MultiplexedNFCReader:
         a1_value = (device_number >> 1) & 1
         a0_value = device_number & 1
 
-        print "Setting value: " + str(a2_value) + " " + str(a1_value) + " " + str(a0_value)
-
         GPIO.output(MultiplexedNFCReader.A2, a2_value)
         GPIO.output(MultiplexedNFCReader.A1, a1_value)
         GPIO.output(MultiplexedNFCReader.A0, a0_value)
@@ -64,4 +62,3 @@ while continue_reading:
                 tag_uid = multiplexed_nfc_reader.read_NFC()
                 print "Card read " + str(device) + "! UID: "+ tag_uid
             multiplexed_nfc_reader.cleanup()
-        time.sleep(1)
