@@ -9,7 +9,7 @@ import time
 
 class MultiplexedNFCReader:
     A0 = 40 # GPIO 21
-    A1 = 37 # GPIO 20
+    A1 = 38 # GPIO 20
     A2 = 36 # GPIO 16
     A3 = 32 # GPIO 12
 
