@@ -24,17 +24,17 @@ class MultiplexedNFCReader:
         self.mfrfc_reader = MFRC522.MFRC522()
 
     def select_device(self, device_number):
-        a3_value = (device_number >> 3) & 1
-        a2_value = (device_number >> 2) & 1
-        a1_value = (device_number >> 1) & 1
-        a0_value = device_number & 1
+        a0_value = (device_number >> 3) & 1
+        a1_value = (device_number >> 2) & 1
+        a2_value = (device_number >> 1) & 1
+        a3_value = device_number & 1
 
-        print "Setting value: " + str(a3_value) + " " + str(a2_value) + " " + str(a1_value) + " " + str(a0_value)
+        print "Setting value: " + str(a0_value) + " " + str(a1_value) + " " + str(a2_value) + " " + str(a3_value)
 
-        GPIO.output(MultiplexedNFCReader.A3, a3_value)
-        GPIO.output(MultiplexedNFCReader.A2, a2_value)
-        GPIO.output(MultiplexedNFCReader.A1, a1_value)
         GPIO.output(MultiplexedNFCReader.A0, a0_value)
+        GPIO.output(MultiplexedNFCReader.A1, a1_value)
+        GPIO.output(MultiplexedNFCReader.A2, a2_value)
+        GPIO.output(MultiplexedNFCReader.A3, a3_value)
 
     def has_tag(self):
         (status, TagType) = self.mfrfc_reader.MFRC522_Request(self.mfrfc_reader.PICC_REQIDL)
