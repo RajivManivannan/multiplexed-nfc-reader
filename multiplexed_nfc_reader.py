@@ -24,12 +24,12 @@ class MultiplexedNFCReader:
         self.mfrfc_reader = MFRC522.MFRC522()
 
     def select_device(self, device_number):
-        a0_value = (device_number >> 3) & 1
-        a1_value = (device_number >> 2) & 1
-        a2_value = (device_number >> 1) & 1
-        a3_value = device_number & 1
+        a3_value = (device_number >> 3) & 1
+        a2_value = (device_number >> 2) & 1
+        a1_value = (device_number >> 1) & 1
+        a0_value = device_number & 1
 
-        print "Setting value: " + str(a0_value) + " " + str(a1_value) + " " + str(a2_value) + " " + str(a3_value)
+        print "Setting value: " + str(a3_value) + " " + str(a2_value) + " " + str(a1_value) + " " + str(a0_value)
 
         GPIO.output(MultiplexedNFCReader.A0, a0_value)
         GPIO.output(MultiplexedNFCReader.A1, a1_value)
