@@ -60,7 +60,7 @@ class MultiplexedNFCReader:
                         b += chr(byte)
                     print(b)
             else:
-                print "Unable to read data received : "+ data
+                print "Unable to read data or no data"
             return str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
         else:
             return ""
