@@ -48,7 +48,7 @@ class MultiplexedNFCReader:
         (status, uid) = self.mfrfc_reader.MFRC522_Anticoll()
         if status == self.mfrfc_reader.MI_OK:
                 # This is the default key for authentication
-                key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+                key = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
                 # Select the scanned tag
                 self.mfrfc_reader.SelectTag(uid)
                 data = self.mfrfc_reader.DumpClassic1K_Data(key, uid)
