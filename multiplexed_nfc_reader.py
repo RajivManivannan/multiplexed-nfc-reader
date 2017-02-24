@@ -47,6 +47,9 @@ class MultiplexedNFCReader:
     def read_NFC(self):
         (status, uid) = self.mfrfc_reader.MFRC522_Anticoll()
         if status == self.mfrfc_reader.MI_OK:
+             # This is the default key for authentication
+             key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF]
+            self.mfrfc_reader.MFRC522_DumpClassic1K(key, uid)
             return str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
         else:
             return ""
