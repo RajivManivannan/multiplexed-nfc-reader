@@ -53,7 +53,7 @@ class MultiplexedNFCReader:
             self.mfrfc_reader.MFRC522_SelectTag(uid)
             data = self.mfrfc_reader.MFRC522_DumpClassic1K(key, uid)
             self.mfrfc_reader.MFRC522_StopCrypto1()
-            if block not None:
+            if block is not None:
                 for block in data:
                     b = ""
                     for byte in block:
