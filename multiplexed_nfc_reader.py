@@ -51,7 +51,7 @@ class MultiplexedNFCReader:
              # This is the default key for authentication
             key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF]
             # Authenticate
-            status = self.mfrfc_reader.MFRC522_Auth(self.mfrfc_reader.PICC_AUTHENT1A, 7, key, uid)
+            status = self.mfrfc_reader.MFRC522_Auth(self.mfrfc_reader.PICC_AUTHENT1B, 7, key, uid)
             if status == self.mfrfc_reader.MI_OK:
                 self.mfrfc_reader.MFRC522_Read(i)
             else:
