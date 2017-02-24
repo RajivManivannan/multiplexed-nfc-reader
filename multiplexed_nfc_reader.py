@@ -54,7 +54,7 @@ class MultiplexedNFCReader:
             status = self.mfrfc_reader.MFRC522_Auth(self.mfrfc_reader.PICC_AUTHENT1A, 7, key, uid)
             if status == self.mfrfc_reader.MI_OK:
                 self.mfrfc_reader.MFRC522_Read(i)
-            else
+            else:
                 print "Auth Failure"
             # self.mfrfc_reader.MFRC522_DumpClassic1K(key, uid)
             return str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
