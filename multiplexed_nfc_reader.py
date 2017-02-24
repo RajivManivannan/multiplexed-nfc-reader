@@ -50,9 +50,9 @@ class MultiplexedNFCReader:
             # This is the default key for authentication ndfe format
             key = [0xD3, 0xF7, 0xD3, 0xF7, 0xD3, 0xF7]
             # Select the scanned tag
-            self.mfrfc_reader.SelectTag(uid)
+            self.mfrfc_reader.MFRC522_SelectTag(uid)
             data = self.mfrfc_reader.MFRC522_DumpClassic1K(key, uid)
-            self.mfrfc_reader.StopCrypto1()
+            self.mfrfc_reader.MFRC522_StopCrypto1()
             for block in data:
                 b = ""
                 for byte in block:
