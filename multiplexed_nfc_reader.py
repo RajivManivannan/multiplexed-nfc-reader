@@ -5,7 +5,6 @@ import MFRC522
 import signal
 
 import spidev
-import time
 
 class MultiplexedNFCReader:
     A0 = 37 # GPIO 26
