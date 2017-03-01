@@ -87,8 +87,8 @@ while continue_reading:
                     tools.append(tool_id)
                 # print "Card read " + str(device) + "! UID: "+ tag_uid
         multiplexed_nfc_reader.cleanup()
-        tool_history.append({
-            'timestamp': timestamp,
-            'tools': tools
-        })
-        print "Tools found: " + ", ".join(map(str, set(tools)))
+    tool_history.append({
+        'timestamp': timestamp,
+        'tools': tools
+    })
+    print "Tools found: " + ", ".join(map(str, set(tools)))
