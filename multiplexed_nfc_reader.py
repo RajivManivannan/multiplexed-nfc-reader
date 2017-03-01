@@ -78,12 +78,13 @@ while continue_reading:
     timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
     for device in range(0, 32):
         multiplexed_nfc_reader = MultiplexedNFCReader(device)
-        print "Reading device: " + str(device)
+        # print "Reading device: " + str(device)
         for _ in range(5):
             if multiplexed_nfc_reader.has_tag():
                 tag_uid = multiplexed_nfc_reader.read_NFC()
                 if tag_uid.count("") > 0:
-                    tools.append(tag_uid)
+                    tool_id = nfc_uuid_to_tool_map[tag_uid]
+                    tools.append(tool_id)
                 # print "Card read " + str(device) + "! UID: "+ tag_uid
         multiplexed_nfc_reader.cleanup()
         tool_history.append({
