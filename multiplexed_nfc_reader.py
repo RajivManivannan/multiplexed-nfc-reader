@@ -81,7 +81,7 @@ while continue_reading:
         for _ in range(5):
             if multiplexed_nfc_reader.has_tag():
                 tag_uid = multiplexed_nfc_reader.read_NFC()
-                if tag_uid.count() < 0
+                if tag_uid.count("") > 0:
                     tools.append(tag_uid)
                 # print "Card read " + str(device) + "! UID: "+ tag_uid
         multiplexed_nfc_reader.cleanup()
