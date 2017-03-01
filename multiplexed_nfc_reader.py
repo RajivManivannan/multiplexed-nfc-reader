@@ -2,9 +2,17 @@
 
 import RPi.GPIO as GPIO
 import MFRC522
-import signal
-
 import spidev
+
+import signal
+import datetime
+
+nfc_uuid_to_tool_map = {
+    "136,4,170,99": "Tool A",
+    "136,4,80,109": "Tool B",
+    "136,4,78,109": "Tool C",
+    "136,4,60,110": "Tool D"
+}
 
 class MultiplexedNFCReader:
     A0 = 37 # GPIO 26
@@ -31,7 +39,7 @@ class MultiplexedNFCReader:
         a1_value = (device_number >> 1) & 1
         a0_value = device_number & 1
 
-        print "Setting value: " + str(a4_value) + " " + str(a3_value) + " " + str(a2_value) + " " + str(a1_value) + " " + str(a0_value)
+        # print "Setting value: " + str(a4_value) + " " + str(a3_value) + " " + str(a2_value) + " " + str(a1_value) + " " + str(a0_value)
 
         GPIO.output(MultiplexedNFCReader.A0, a0_value)
         GPIO.output(MultiplexedNFCReader.A1, a1_value)
@@ -62,12 +70,23 @@ def end_read(signal,frame):
     GPIO.cleanup()
 signal.signal(signal.SIGINT, end_read)
 
+tool_history = []
+
 while continue_reading:
+    tools = []
+    timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
     for device in range(0, 32):
         multiplexed_nfc_reader = MultiplexedNFCReader(device)
         print "Reading device: " + str(device)
-        for _ in range(10):
+        for _ in range(5):
             if multiplexed_nfc_reader.has_tag():
                 tag_uid = multiplexed_nfc_reader.read_NFC()
-                print "Card read " + str(device) + "! UID: "+ tag_uid
+                if tag_uid.count() < 0
+                    tools.append(tag_uid)
+                # print "Card read " + str(device) + "! UID: "+ tag_uid
         multiplexed_nfc_reader.cleanup()
+        tool_history.append({
+            'timestamp': timestamp,
+            'tools': tools
+        })
+        print "Tools found: " + ", ".join(map(str, set(tools)))
