@@ -7,11 +7,6 @@ time = (Time.now + time_interval).to_i
 
 FILE_TO_WRITE = "/tmp/bluetooth-zone-id.txt"
 
-uuid_to_machine_zone = {
-  "74278BDA-B644-4520-8F0C-720EAF059935" => "Machine A Zone", # CC2541
-  "2F234454-CF6D-4A0F-ADF2-F4911BA9FFA6" => "Machine B Zone" # Button Beacon
-}
-
 all_reads = {
 }
 
