@@ -1,1 +1,1 @@
-Dirty hack.
+Quick Demo Project.
