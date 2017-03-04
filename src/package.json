@@ -1,0 +1,13 @@
+{
+  "name": "SimpleCartIndex",
+  "version": "1.0.0",
+  "description": "A simple html based cart index.",
+  "main": "index.js",
+  "repository": "https://github.com/tarkalabs/multiplexed-nfc-reader",
+  "author": "G",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.0",
+    "pug": "^2.0.0-beta11"
+  }
+}

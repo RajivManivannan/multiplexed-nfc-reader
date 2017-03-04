@@ -9,8 +9,12 @@ import time
 import signal
 import datetime
 
+from uuid import uuid4
+
 FILE_TO_WRITE = "/tmp/bluetooth-zone-id.txt"
 JSON_OUTPUT_FILE = "./src/output.json"
+
+rack_id = str(uuid4())
 
 class MultiplexedNFCReader:
     A0 = 3 # GPIO 2
@@ -102,6 +106,7 @@ def main():
             multiplexed_nfc_reader.cleanup()
 
         save_as_json({
+            "rackID": rack_id,
             "tags": map(str, set(tag_ids)),
             "zoneUUID": zone_id,
             "timestamp": timestamp
