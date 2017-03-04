@@ -8,6 +8,8 @@ import time
 import signal
 import datetime
 
+FILE_TO_WRITE = "/tmp/bluetooth-zone-id.txt"
+
 class MultiplexedNFCReader:
     A0 = 3 # GPIO 2
     A1 = 5 # GPIO 3
@@ -66,6 +68,13 @@ def end_read(signal,frame):
     GPIO.cleanup()
 signal.signal(signal.SIGINT, end_read)
 
+def getMachineUUID():
+    try:
+        with open(FILE_TO_WRITE, "r") as file:
+            return file.read()
+    except IOError:
+        return ""
+
 def main():
     while continue_reading:
         tag_ids = []
@@ -82,6 +91,7 @@ def main():
                         tag_ids.append(tag_uid)
             multiplexed_nfc_reader.cleanup()
         print "Tag ids found: " + ", ".join(map(str, set(tag_ids)))
+        print "Near " + getMachineUUID()
 
 if __name__ == "__main__":
     main()
