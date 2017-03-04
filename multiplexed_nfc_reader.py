@@ -4,6 +4,7 @@ import RPi.GPIO as GPIO
 import MFRC522
 import spidev
 
+import json
 import time
 import signal
 import datetime
@@ -68,18 +69,26 @@ def end_read(signal,frame):
     GPIO.cleanup()
 signal.signal(signal.SIGINT, end_read)
 
-def getMachineUUID():
+def get_zone_uuid():
     try:
         with open(FILE_TO_WRITE, "r") as file:
             return file.read()
     except IOError:
         return ""
 
+def save_as_json(output):
+    try:
+        with open('./output.json', 'w') as outfile:
+            json.dump(output, outfile)
+    except IOError:
+        print "Unable to save as json!!! :("
+
 def main():
     while continue_reading:
         tag_ids = []
 
         timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+        zone_id = get_zone_uuid()
 
         for device in range(0, 40):
             multiplexed_nfc_reader = MultiplexedNFCReader(device)
@@ -90,8 +99,15 @@ def main():
                     if tag_uid.count("") > 0:
                         tag_ids.append(tag_uid)
             multiplexed_nfc_reader.cleanup()
+
+        save_as_json({
+            "tags": map(str, set(tag_ids)),
+            "zoneUUID": zone_id,
+            "timestamp": timestamp
+        })
+
         print "Tag ids found: " + ", ".join(map(str, set(tag_ids)))
-        print "Near " + getMachineUUID()
+        print "Near: " + zone_id
 
 if __name__ == "__main__":
     main()
