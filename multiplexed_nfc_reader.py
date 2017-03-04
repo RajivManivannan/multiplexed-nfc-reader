@@ -77,6 +77,7 @@ def main():
             for _ in range(5):
                 if multiplexed_nfc_reader.has_tag():
                     tag_uid = multiplexed_nfc_reader.read_NFC()
+                    print "Device " + str(device) + " -> Tag: " + tag_uid
                     if tag_uid.count("") > 0:
                         tag_ids.append(tag_uid)
             multiplexed_nfc_reader.cleanup()
