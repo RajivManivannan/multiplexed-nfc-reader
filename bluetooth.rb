@@ -5,6 +5,8 @@ time_interval = 2 # seconds
 counter_threshold = 10 # counts
 time = (Time.now + time_interval).to_i
 
+FILE_TO_WRITE = "/tmp/bluetooth-zone-id.txt"
+
 uuid_to_machine_zone = {
   "74278BDA-B644-4520-8F0C-720EAF059935" => "Machine A Zone", # CC2541
   "2F234454-CF6D-4A0F-ADF2-F4911BA9FFA6" => "Machine B Zone" # Button Beacon
@@ -40,11 +42,11 @@ ARGF.each_line do |e|
         -avg_rssi
       end
 
-      closest_uuid = sorted_uuids.first
+      closest_uuid, rssi  = sorted_uuids.first
 
       all_reads = {}
 
-      puts "In zone: #{uuid_to_machine_zone[closest_uuid.first]} with RSSI: #{closest_uuid.last}"
+      File.open(FILE_TO_WRITE, 'w') { |file| file.write(closest_uuid) }
     end
   end
 end
