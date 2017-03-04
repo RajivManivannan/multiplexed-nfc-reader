@@ -10,6 +10,7 @@ import signal
 import datetime
 
 FILE_TO_WRITE = "/tmp/bluetooth-zone-id.txt"
+JSON_OUTPUT_FILE = "./src/output.json"
 
 class MultiplexedNFCReader:
     A0 = 3 # GPIO 2
@@ -78,7 +79,7 @@ def get_zone_uuid():
 
 def save_as_json(output):
     try:
-        with open('./output.json', 'w') as outfile:
+        with open(JSON_OUTPUT_FILE, 'w') as outfile:
             json.dump(output, outfile)
     except IOError:
         print "Unable to save as json!!! :("
