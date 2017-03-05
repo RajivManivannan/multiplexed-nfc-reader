@@ -7,7 +7,6 @@ import spidev
 import json
 import time
 import signal
-import datetime
 
 from uuid import uuid4
 
@@ -92,7 +91,7 @@ def main():
     while continue_reading:
         tag_ids = []
 
-        timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+        timestamp = int(time.time())
         zone_id = get_zone_uuid()
 
         for device in range(0, 40):
