@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-./output.sh
+./output.sh &
 cd src && npm start
