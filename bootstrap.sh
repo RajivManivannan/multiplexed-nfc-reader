@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
-./output.sh &
+rm -f /tmp/bluetooth-zone-id.txt
+./multiplexed_nfc_reader.py &
 cd src && npm start

@@ -32,7 +32,7 @@ ARGF.each_line do |e|
 
       sorted_uuids = uuid_with_average_rssi.sort_by do |uuid, avg_rssi|
         if uuid == "2F234454-CF6D-4A0F-ADF2-F4911BA9FFA6"
-          -avg_rssi + 20
+          -avg_rssi + 35
         end
         -avg_rssi
       end
@@ -40,6 +40,8 @@ ARGF.each_line do |e|
       closest_uuid, rssi  = sorted_uuids.first
 
       all_reads = {}
+
+      puts "In Zone: #{closest_uuid} with RSSI: #{rssi}"
 
       File.open(FILE_TO_WRITE, 'w') { |file| file.write(closest_uuid) }
     end
