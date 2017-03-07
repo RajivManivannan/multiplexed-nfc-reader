@@ -16,12 +16,19 @@ JSON_OUTPUT_FILE = "./src/output.json"
 rack_id = str(uuid4())
 
 class MultiplexedNFCReader:
-    A0 = 3 # GPIO 2
-    A1 = 5 # GPIO 3
-    A2 = 7 # GPIO 4
-    A3 = 11 # GPIO 17
-    A4 = 13 # GPIO 27
-    A5 = 15 # GPIO 22
+    NO_OF_PINS_PER_CHIP = 16
+    TOTAL_PINS = 48
+
+    A0 = 31 # GPIO 6
+    A1 = 33 # GPIO 13
+    A2 = 35 # GPIO 19
+    A3 = 37 # GPIO 26
+
+    ENABLE_PINS = [
+        40, # GPIO 21 -> Chip 0
+        38, # GPIO 20 -> Chip 1
+        36, # GPIO 16 -> Chip 2
+    ]
 
     def __init__(self, device_number):
         GPIO.setwarnings(False)
@@ -30,14 +37,14 @@ class MultiplexedNFCReader:
         GPIO.setup(MultiplexedNFCReader.A1, GPIO.OUT)
         GPIO.setup(MultiplexedNFCReader.A2, GPIO.OUT)
         GPIO.setup(MultiplexedNFCReader.A3, GPIO.OUT)
-        GPIO.setup(MultiplexedNFCReader.A4, GPIO.OUT)
-        GPIO.setup(MultiplexedNFCReader.A5, GPIO.OUT)
+
+        for enable_pin in MultiplexedNFCReader.ENABLE_PINS:
+            GPIO.setup(enable_pin, GPIO.out)
+
         self.select_device(device_number)
         self.mfrfc_reader = MFRC522.MFRC522()
 
     def select_device(self, device_number):
-        a5_value = (device_number >> 5) & 1
-        a4_value = (device_number >> 4) & 1
         a3_value = (device_number >> 3) & 1
         a2_value = (device_number >> 2) & 1
         a1_value = (device_number >> 1) & 1
@@ -47,8 +54,13 @@ class MultiplexedNFCReader:
         GPIO.output(MultiplexedNFCReader.A1, a1_value)
         GPIO.output(MultiplexedNFCReader.A2, a2_value)
         GPIO.output(MultiplexedNFCReader.A3, a3_value)
-        GPIO.output(MultiplexedNFCReader.A4, a4_value)
-        GPIO.output(MultiplexedNFCReader.A5, a5_value)
+
+        chip_number = device_number / MultiplexedNFCReader.NO_OF_PINS_PER_CHIP
+
+        for index, enable_pin in enumerate(MultiplexedNFCReader.ENABLE_PINS):
+            value = int(chip_number == index)
+            GPIO.output(enable_pin, value)
+
 
     def has_tag(self):
         (status, TagType) = self.mfrfc_reader.MFRC522_Request(self.mfrfc_reader.PICC_REQIDL)
@@ -63,7 +75,6 @@ class MultiplexedNFCReader:
 
     def cleanup(self):
         GPIO.cleanup()
-
 
 continue_reading = True
 def end_read(signal,frame):
