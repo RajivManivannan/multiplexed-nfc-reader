@@ -10,10 +10,18 @@ import signal
 
 from uuid import uuid4
 
-FILE_TO_WRITE = "/tmp/bluetooth-zone-id.txt"
+BLUETOOTH_FILE = "/tmp/bluetooth-zone-id.txt"
 JSON_OUTPUT_FILE = "./src/output.json"
+CART_ID_FILE = "./cart-id.txt"
 
-rack_id = str(uuid4())
+def get_file_text(file_path):
+    try:
+        with open(file_path, "r") as file:
+            return file.read()
+    except IOError:
+        return str(uuid4())
+
+rack_id = get_file_text(CART_ID_FILE)
 
 class MultiplexedNFCReader:
     A0 = 3 # GPIO 2
@@ -74,11 +82,7 @@ def end_read(signal,frame):
 signal.signal(signal.SIGINT, end_read)
 
 def get_zone_uuid():
-    try:
-        with open(FILE_TO_WRITE, "r") as file:
-            return file.read()
-    except IOError:
-        return ""
+    return get_file_text(BLUETOOTH_FILE)
 
 def save_as_json(output):
     try:
@@ -98,7 +102,7 @@ def main():
             multiplexed_nfc_reader = MultiplexedNFCReader(device)
             for _ in range(5):
                 if multiplexed_nfc_reader.has_tag():
-                    tag_uid = multiplexed_nfc_reader.read_NFC()
+                    tag_uid = multiplexed_nfc_reader.read_NFC().replace(",", "-")
                     print "Device " + str(device) + " -> Tag: " + tag_uid
                     if tag_uid.count("") > 0:
                         tag_ids.append(tag_uid)

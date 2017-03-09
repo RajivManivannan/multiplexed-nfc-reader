@@ -1,5 +1,6 @@
 project-resources
 src/output.json
+cart-id.txt
 
 # Logs
 logs
