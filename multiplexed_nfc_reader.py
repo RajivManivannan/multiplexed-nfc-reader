@@ -14,12 +14,14 @@ BLUETOOTH_FILE = "/tmp/bluetooth-zone-id.txt"
 JSON_OUTPUT_FILE = "./src/output.json"
 CART_ID_FILE = "./cart-id.txt"
 
+RANDOM_ID = str(uuid4())
+
 def get_file_text(file_path):
     try:
         with open(file_path, "r") as file:
             return file.read()
     except IOError:
-        return str(uuid4())
+        return RANDOM_ID
 
 rack_id = get_file_text(CART_ID_FILE)
 
