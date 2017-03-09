@@ -29,7 +29,6 @@ class MultiplexedNFCReader:
     A2 = 7 # GPIO 4
     A3 = 11 # GPIO 17
     A4 = 13 # GPIO 27
-    A5 = 15 # GPIO 22
 
     def __init__(self, device_number):
         GPIO.setwarnings(False)
@@ -39,12 +38,10 @@ class MultiplexedNFCReader:
         GPIO.setup(MultiplexedNFCReader.A2, GPIO.OUT)
         GPIO.setup(MultiplexedNFCReader.A3, GPIO.OUT)
         GPIO.setup(MultiplexedNFCReader.A4, GPIO.OUT)
-        GPIO.setup(MultiplexedNFCReader.A5, GPIO.OUT)
         self.select_device(device_number)
         self.mfrfc_reader = MFRC522.MFRC522()
 
     def select_device(self, device_number):
-        a5_value = (device_number >> 5) & 1
         a4_value = (device_number >> 4) & 1
         a3_value = (device_number >> 3) & 1
         a2_value = (device_number >> 2) & 1
@@ -56,7 +53,6 @@ class MultiplexedNFCReader:
         GPIO.output(MultiplexedNFCReader.A2, a2_value)
         GPIO.output(MultiplexedNFCReader.A3, a3_value)
         GPIO.output(MultiplexedNFCReader.A4, a4_value)
-        GPIO.output(MultiplexedNFCReader.A5, a5_value)
 
     def has_tag(self):
         (status, TagType) = self.mfrfc_reader.MFRC522_Request(self.mfrfc_reader.PICC_REQIDL)
@@ -98,7 +94,7 @@ def main():
         timestamp = int(time.time())
         zone_id = get_zone_uuid()
 
-        for device in range(0, 40):
+        for device in range(0, 32):
             multiplexed_nfc_reader = MultiplexedNFCReader(device)
             for _ in range(5):
                 if multiplexed_nfc_reader.has_tag():
