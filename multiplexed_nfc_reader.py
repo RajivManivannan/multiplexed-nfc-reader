@@ -63,7 +63,7 @@ class MultiplexedNFCReader:
     def read_NFC(self):
         (status, uid) = self.mfrfc_reader.MFRC522_Anticoll()
         if status == self.mfrfc_reader.MI_OK:
-            return str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
+            return str(uid[0]) + "-" + str(uid[1]) + "-" + str(uid[2]) + "-" + str(uid[3])
         else:
             return ""
 
@@ -100,7 +100,7 @@ def main():
             multiplexed_nfc_reader = MultiplexedNFCReader(device)
             for _ in range(5):
                 if multiplexed_nfc_reader.has_tag():
-                    tag_uid = multiplexed_nfc_reader.read_NFC().replace(",", "-")
+                    tag_uid = multiplexed_nfc_reader.read_NFC()
                     print "Device " + str(device) + " -> Tag: " + tag_uid
                     if tag_uid.count("") > 0:
                         tag_ids.append(tag_uid)
