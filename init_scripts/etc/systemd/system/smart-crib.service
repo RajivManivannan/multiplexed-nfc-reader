@@ -1,0 +1,17 @@
+[Unit]
+Description=Smart Crib Server
+Requires=After=nearest-beacon.service
+Requires=After=nfc-reader.service
+
+[Service]
+ExecStart=/usr/bin/npm start
+WorkingDirectory=/home/pi/work/multiplexed-nfc-reader/src
+Restart=always
+RestartSec=7
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=smart-crib
+Environment=NODE_ENV=production PORT=3000
+
+[Install]
+WantedBy=multi-user.target

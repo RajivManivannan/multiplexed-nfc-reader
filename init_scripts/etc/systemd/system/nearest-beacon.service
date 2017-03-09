@@ -1,0 +1,14 @@
+[Unit]
+Description=Bluetooth reader to figure out the closest beacon
+
+[Service]
+ExecStart=/bin/bash bluetooth.sh
+WorkingDirectory=/home/pi/work/multiplexed-nfc-reader
+Restart=always
+RestartSec=7
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=nearest-beacon
+
+[Install]
+WantedBy=multi-user.target

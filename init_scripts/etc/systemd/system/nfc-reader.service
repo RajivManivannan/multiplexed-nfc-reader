@@ -1,0 +1,15 @@
+[Unit]
+Description=Multiplexed NFC reader
+Requires=After=nearest-beacon.service
+
+[Service]
+ExecStart=/usr/bin/python multiplexed_nfc_reader.py
+WorkingDirectory=/home/pi/work/multiplexed-nfc-reader
+Restart=always
+RestartSec=7
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=nfc-reader
+
+[Install]
+WantedBy=multi-user.target
