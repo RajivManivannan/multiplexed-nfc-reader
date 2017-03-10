@@ -1,6 +1,5 @@
 [Unit]
 Description=Smart Crib Server
-Requires=After=nearest-beacon.service
 Requires=After=nfc-reader.service
 
 [Service]
