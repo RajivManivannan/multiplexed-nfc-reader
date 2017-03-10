@@ -43,7 +43,11 @@ function getReadings() {
     toolIDs.push(MAPPINGS["tools"][tagID] || tagID);
   });
 
-  readings["tags"] = toolIDs.sort();
+  toolIDs = toolIDs.filter(function(x) { return x.length != 0 }).sort();
+
+  readings["tags"] = toolIDs;
+
+  readings["toolCount"] = toolIDs.length;
 
   var since = timestamp.fromNow();
 

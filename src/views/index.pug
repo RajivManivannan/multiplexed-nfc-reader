@@ -11,35 +11,46 @@ html
     div(class="container-fluid")
 
       div(class="jumbotron jumbotron-fluid")
-        div(class="container")
+        div(class="row")
+          div(class="col-sm-4 col-sm-offset-6")
           h1(class="display-3") Smart Crib
-            p(class="lead") Displays all information being recorded on the Raspberry Pi Machine.</p>
-          hr(class="my-4")
-          p This page is built for demo and auto-refreshes.
 
-      div(class="row")
-        div(class="col-sm-6")
+      div(class="row", style="font-size: 2em;")
+        div(class="col-sm-12")
           div(class="card")
             div(class="card-block")
               div(class="card-text")
+
                 div(class="row")
-                  div(class="col-md-6")
-                    h4(class="card-title") Tool Cart
-                    p Last Updated: #{since}
-                  div(class="col-md-6")
-                    span #{rackID}
+                  div(class="col-sm-3")
+                    div(class="card-title", style="font-weight: bold;") Tool Cart Number
+                  div(class="col-sm-9")
+                    div(class="card-title") #{rackID}
+
                 div(class="row")
-                  div(class="col-md-6")
-                    h5(class="machine-info") Machine Zone
-                  div(class="col-md-6")
+                  div(class="col-sm-3")
+                    div(style="font-weight: bold;") Last Updated
+                  div(class="col-sm-9")
+                    div(class="card-title") #{since}
+
+                div(class="row")
+                  div(class="col-sm-3")
+                    div(class="machine-info", style="font-weight: bold;") Machine Zone
+                  div(class="col-sm-9")
                     p #{zoneUUID}
+
                 div(class="row")
-                  div(class="col-md-3")
-                    h5 Tools Found
-                  div(class="col-md-9")
-                    ul(class="list-group list-group-flush")
-                      each tool in tags
-                        li(class="list-group-item") #{tool}
+                  div(class="col-sm-3")
+                    div(style="font-weight: bold;") Tools Count
+                  div(class="col-sm-9")
+                    div(class="card-title") #{toolCount}
+
+                div(class="row")
+                  div(class="col-sm-12")
+                    div(style="font-weight: bold;") Tool List
+                div(class="row")
+                  each tool in tags
+                    div(class="col-sm-3") #{tool}
 
 
     script(src='/assets/javascripts/bootstrap.min.js', type='text/javascript')

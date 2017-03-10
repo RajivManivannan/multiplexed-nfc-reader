@@ -14,16 +14,14 @@ BLUETOOTH_FILE = "/tmp/bluetooth-zone-id.txt"
 JSON_OUTPUT_FILE = "./src/output.json"
 CART_ID_FILE = "./cart-id.txt"
 
-RANDOM_ID = str(uuid4())
-
-def get_file_text(file_path):
+def get_file_text(file_path, default):
     try:
         with open(file_path, "r") as file:
             return file.read()
     except IOError:
-        return RANDOM_ID
+        return default
 
-rack_id = get_file_text(CART_ID_FILE)
+rack_id = get_file_text(CART_ID_FILE, "Cart X")
 
 class MultiplexedNFCReader:
     A0 = 3 # GPIO 2
@@ -80,7 +78,7 @@ def end_read(signal,frame):
 signal.signal(signal.SIGINT, end_read)
 
 def get_zone_uuid():
-    return get_file_text(BLUETOOTH_FILE)
+    return get_file_text(BLUETOOTH_FILE, "Machine X")
 
 def save_as_json(output):
     try:
