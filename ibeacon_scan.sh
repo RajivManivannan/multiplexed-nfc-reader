@@ -1,8 +1,8 @@
 #!/bin/bash
 # iBeacon Scan by Radius Networks
 
-sudo hciconfig hci0 down
-sudo hciconfig hci0 up
+# sudo hciconfig hci0 down
+# sudo hciconfig hci0 up
 
 if [[ $1 == "parse" ]]; then
   packet=""
