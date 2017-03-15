@@ -6,14 +6,14 @@ html
 
     link(rel='stylesheet', href='/assets/stylesheets/bootstrap.min.css')
     title
-      | Smart Crib
+      | Smart Tool Crib
   body
     div(class="container-fluid")
 
       div(class="jumbotron jumbotron-fluid")
         div(class="row")
           div(class="col-sm-4 col-sm-offset-6")
-          h1(class="display-3") Smart Crib
+          h1(class="display-3") Smart Tool Crib
 
       div(class="row", style="font-size: 2em;")
         div(class="col-sm-12")
@@ -23,9 +23,9 @@ html
 
                 div(class="row")
                   div(class="col-sm-3")
-                    div(class="card-title", style="font-weight: bold;") Tool Cart Number
+                    div(class="card-title", style="font-weight: bold;") Placed on
                   div(class="col-sm-9")
-                    div(class="card-title") #{rackID}
+                    div(class="card-title") Center Table
 
                 div(class="row")
                   div(class="col-sm-3")
@@ -35,7 +35,7 @@ html
 
                 div(class="row")
                   div(class="col-sm-3")
-                    div(class="machine-info", style="font-weight: bold;") Machine Zone
+                    div(class="machine-info", style="font-weight: bold;") Zone
                   div(class="col-sm-9")
                     p #{zoneUUID}
 
@@ -62,4 +62,4 @@ html
     script.
       setTimeout(function() {
         window.location.reload(true);
-      }, 10000);
+      }, 5000);

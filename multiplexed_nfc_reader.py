@@ -14,6 +14,8 @@ BLUETOOTH_FILE = "/tmp/bluetooth-zone-id.txt"
 JSON_OUTPUT_FILE = "./src/output.json"
 CART_ID_FILE = "./cart-id.txt"
 
+MAX_TOOL_COUNT = 10
+
 def get_file_text(file_path, default):
     try:
         with open(file_path, "r") as file:
@@ -28,7 +30,6 @@ class MultiplexedNFCReader:
     A1 = 5 # GPIO 3
     A2 = 7 # GPIO 4
     A3 = 11 # GPIO 17
-    A4 = 13 # GPIO 27
 
     def __init__(self, device_number):
         GPIO.setwarnings(False)
@@ -37,12 +38,10 @@ class MultiplexedNFCReader:
         GPIO.setup(MultiplexedNFCReader.A1, GPIO.OUT)
         GPIO.setup(MultiplexedNFCReader.A2, GPIO.OUT)
         GPIO.setup(MultiplexedNFCReader.A3, GPIO.OUT)
-        GPIO.setup(MultiplexedNFCReader.A4, GPIO.OUT)
         self.select_device(device_number)
         self.mfrfc_reader = MFRC522.MFRC522()
 
     def select_device(self, device_number):
-        a4_value = (device_number >> 4) & 1
         a3_value = (device_number >> 3) & 1
         a2_value = (device_number >> 2) & 1
         a1_value = (device_number >> 1) & 1
@@ -52,7 +51,6 @@ class MultiplexedNFCReader:
         GPIO.output(MultiplexedNFCReader.A1, a1_value)
         GPIO.output(MultiplexedNFCReader.A2, a2_value)
         GPIO.output(MultiplexedNFCReader.A3, a3_value)
-        GPIO.output(MultiplexedNFCReader.A4, a4_value)
 
     def has_tag(self):
         (status, TagType) = self.mfrfc_reader.MFRC522_Request(self.mfrfc_reader.PICC_REQIDL)
@@ -78,7 +76,7 @@ def end_read(signal,frame):
 signal.signal(signal.SIGINT, end_read)
 
 def get_zone_uuid():
-    return get_file_text(BLUETOOTH_FILE, "Machine X")
+    return get_file_text(BLUETOOTH_FILE, "Zone C")
 
 def save_as_json(output):
     try:
@@ -94,7 +92,7 @@ def main():
         timestamp = int(time.time())
         zone_id = get_zone_uuid()
 
-        for device in range(0, 32):
+        for device in range(0, MAX_TOOL_COUNT):
             multiplexed_nfc_reader = MultiplexedNFCReader(device)
             for _ in range(5):
                 if multiplexed_nfc_reader.has_tag():
